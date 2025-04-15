@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/adoptions")
-public class AdocaoController {
+public class AdoptionController {
 
     @Autowired
     private AdoptionService adoptionService;
