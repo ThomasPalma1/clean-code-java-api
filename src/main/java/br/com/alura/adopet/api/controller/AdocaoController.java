@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/adocoes")
+@RequestMapping("/adoptions")
 public class AdocaoController {
 
     @Autowired
@@ -34,17 +34,19 @@ public class AdocaoController {
         }
     }
 
-    @PutMapping("/aprovar")
+    @PutMapping("/approve")
     @Transactional
-    public ResponseEntity<String> aprovar(@RequestBody @Valid Adocao adocao) {
-        return null;
+    public ResponseEntity<String> approveAdoption(@RequestBody @Valid Adocao adocao) {
+        this.adoptionService.approve(adocao);
+        return ResponseEntity.ok().build();
     }
 
 
-    @PutMapping("/reprovar")
+    @PutMapping("/disapprove")
     @Transactional
-    public ResponseEntity<String> reprovar(@RequestBody @Valid Adocao adocao) {
-        return null;
+    public ResponseEntity<String> disapproveAdoption(@RequestBody @Valid Adocao adocao) {
+        this.adoptionService.disapprove(adocao);
+        return ResponseEntity.ok().build();
 
     }
 }
