@@ -39,7 +39,7 @@ public class Adoption {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private StatusAdocao status;
+    private AdoptionStatus status;
 
     @Column(name = "justificativa_status")
     private String justificativaStatus;
@@ -97,11 +97,11 @@ public class Adoption {
         this.motivo = motivo;
     }
 
-    public StatusAdocao getStatus() {
+    public AdoptionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(StatusAdocao status) {
+    public void setStatus(AdoptionStatus status) {
         this.status = status;
     }
 
