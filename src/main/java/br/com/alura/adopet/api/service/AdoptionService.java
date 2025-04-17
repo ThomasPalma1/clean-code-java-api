@@ -5,9 +5,6 @@ import br.com.alura.adopet.api.model.Adoption;
 import br.com.alura.adopet.api.model.StatusAdocao;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,7 +19,7 @@ public class AdoptionService {
     private AdocaoRepository repository;
 
     @Autowired
-    private JavaMailSender emailSender;
+    private EmailService emailService;
 
 
     public void request(Adoption adoption) {
@@ -56,26 +53,31 @@ public class AdoptionService {
         adoption.setStatus(StatusAdocao.AGUARDANDO_AVALIACAO);
         repository.save(adoption);
 
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("adopet@email.com.br");
-        email.setTo(adoption.getPet().getAbrigo().getEmail());
-        email.setSubject("Solicitação de adoção");
-        email.setText("Olá " + adoption.getPet().getAbrigo().getNome() + "!\n\nUma solicitação de adoção foi registrada hoje para o pet: " + adoption.getPet().getNome() + ". \nFavor avaliar para aprovação ou reprovação.");
-        emailSender.send(email);
+        emailService.sendEmail(
+                adoption.getPet().getAbrigo().getEmail(),
+                "Adoption request",
+                "Hello, " + adoption.getPet().getAbrigo().getNome() + "!\n\n" +
+                        "An adoption request has been submitted today for the pet: " +
+                        adoption.getPet().getNome() + ".\n" +
+                        "Please review it for approval or rejection."
+        );
+
     }
 
     public void approve(Adoption adoption) {
         adoption.setStatus(StatusAdocao.APROVADO);
         repository.save(adoption);
 
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("adopet@email.com.br");
-        email.setTo(adoption.getTutor().getEmail());
-        email.setSubject("Adoção aprovada");
-        email.setText("Parabéns " + adoption.getTutor().getNome() + "!\n\nSua adoção do pet " + adoption.getPet().getNome() + ", solicitada em " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + ", foi aprovada.\nFavor entrar em contato com o abrigo " + adoption.getPet().getAbrigo().getNome() + " para agendar a busca do seu pet.");
-        emailSender.send(email);
-
-        return ResponseEntity.ok().build();
+        emailService.sendEmail(
+                adoption.getTutor().getEmail(),
+                "Adoption approved",
+                "Congratulations " + adoption.getTutor().getNome() + "!\n\n" +
+                        "Your adoption of the pet " + adoption.getPet().getNome() + ", requested on " +
+                        adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
+                        ", has been approved.\n" +
+                        "Please contact the shelter " + adoption.getPet().getAbrigo().getNome() +
+                        " to schedule the pickup of your pet."
+        );
 
     }
 
@@ -83,15 +85,17 @@ public class AdoptionService {
         adoption.setStatus(StatusAdocao.REPROVADO);
         repository.save(adoption);
 
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("adopet@email.com.br");
-        email.setTo(adoption.getTutor().getEmail());
-        email.setSubject("Adoção reprovada");
-        email.setText("Olá " + adoption.getTutor().getNome() + "!\n\nInfelizmente sua adoção do pet " + adoption.getPet().getNome() + ", solicitada em " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + ", foi reprovada pelo abrigo " + adoption.getPet().getAbrigo().getNome() + " com a seguinte justificativa: " + adoption.getJustificativaStatus());
-        emailSender.send(email);
+        emailService.sendEmail(
+                adoption.getTutor().getEmail(),
+                "Adoption rejected",
+                "Hello " + adoption.getTutor().getNome() + "!\n\n" +
+                        "Unfortunately, your adoption request for the pet " + adoption.getPet().getNome() +
+                        ", submitted on " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
+                        ", was rejected by the shelter " + adoption.getPet().getAbrigo().getNome() +
+                        " with the following justification: " + adoption.getJustificativaStatus()
+        );
 
-        return ResponseEntity.ok().build();
     }
 
 }
-}
+
