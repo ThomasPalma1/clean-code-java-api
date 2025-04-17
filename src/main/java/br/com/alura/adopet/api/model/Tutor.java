@@ -34,7 +34,7 @@ public class Tutor {
 
     @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
     @JsonManagedReference("tutor_adocoes")
-    private List<Adocao> adocoes;
+    private List<Adoption> adocoes;
 
     @Override
     public boolean equals(Object o) {
@@ -81,11 +81,11 @@ public class Tutor {
         this.email = email;
     }
 
-    public List<Adocao> getAdocoes() {
+    public List<Adoption> getAdocoes() {
         return adocoes;
     }
 
-    public void setAdocoes(List<Adocao> adocoes) {
+    public void setAdocoes(List<Adoption> adocoes) {
         this.adocoes = adocoes;
     }
 }

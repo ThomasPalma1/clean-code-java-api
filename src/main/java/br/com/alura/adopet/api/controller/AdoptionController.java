@@ -1,6 +1,6 @@
 package br.com.alura.adopet.api.controller;
 
-import br.com.alura.adopet.api.model.Adocao;
+import br.com.alura.adopet.api.model.Adoption;
 
 import br.com.alura.adopet.api.service.AdoptionService;
 import jakarta.validation.Valid;
@@ -21,10 +21,10 @@ public class AdoptionController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> requestAdoption(@RequestBody @Valid Adocao adocao) {
+    public ResponseEntity<String> requestAdoption(@RequestBody @Valid Adoption adoption) {
 
         try {
-            this.adoptionService.request(adocao);
+            this.adoptionService.request(adoption);
             return ResponseEntity.ok("Adoption requested successfully!");
         } catch (ValidationException e) {
 
@@ -36,16 +36,16 @@ public class AdoptionController {
 
     @PutMapping("/approve")
     @Transactional
-    public ResponseEntity<String> approveAdoption(@RequestBody @Valid Adocao adocao) {
-        this.adoptionService.approve(adocao);
+    public ResponseEntity<String> approveAdoption(@RequestBody @Valid Adoption adoption) {
+        this.adoptionService.approve(adoption);
         return ResponseEntity.ok().build();
     }
 
 
     @PutMapping("/disapprove")
     @Transactional
-    public ResponseEntity<String> disapproveAdoption(@RequestBody @Valid Adocao adocao) {
-        this.adoptionService.disapprove(adocao);
+    public ResponseEntity<String> disapproveAdoption(@RequestBody @Valid Adoption adoption) {
+        this.adoptionService.disapprove(adoption);
         return ResponseEntity.ok().build();
 
     }
