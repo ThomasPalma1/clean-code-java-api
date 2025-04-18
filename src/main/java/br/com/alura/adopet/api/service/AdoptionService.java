@@ -6,7 +6,9 @@ import br.com.alura.adopet.api.dto.AdoptionRequestDto;
 import br.com.alura.adopet.api.exception.ValidationException;
 import br.com.alura.adopet.api.model.Adoption;
 import br.com.alura.adopet.api.model.AdoptionStatus;
-import br.com.alura.adopet.api.repository.AdocaoRepository;
+import br.com.alura.adopet.api.repository.AdoptionRepository;
+import br.com.alura.adopet.api.repository.PetRepository;
+import br.com.alura.adopet.api.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,13 @@ public class AdoptionService {
 
 
     @Autowired
-    private AdocaoRepository repository;
+    private AdoptionRepository adoptionRepository;
+
+    @Autowired
+    private TutorRepository tutorRepository;
+
+    @Autowired
+    private PetRepository petRepository;
 
     @Autowired
     private EmailService emailService;
@@ -30,7 +38,7 @@ public class AdoptionService {
             throw new ValidationException("Pet has already been adopted!");
 
         } else {
-            List<Adoption> adocoes = repository.findAll();
+            List<Adoption> adocoes = adoptionRepository.findAll();
             for (Adoption a : adocoes) {
                 if (a.getTutor() == adoption.getTutor() && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
                     throw new ValidationException("Tutor already has another adoption awaiting evaluation!");
@@ -54,7 +62,7 @@ public class AdoptionService {
 
         adoption.setData(LocalDateTime.now());
         adoption.setStatus(AdoptionStatus.PENDING_REVIEW);
-        repository.save(adoption);
+        adoptionRepository.save(adoption);
 
         emailService.sendEmail(
                 adoption.getPet().getAbrigo().getEmail(),
@@ -69,7 +77,7 @@ public class AdoptionService {
 
     public void approve(AdoptionApprovalDto dto) {
         adoption.setStatus(AdoptionStatus.APPROVED);
-        repository.save(adoption);
+        adoptionRepository.save(adoption);
 
         emailService.sendEmail(
                 adoption.getTutor().getEmail(),
@@ -86,7 +94,7 @@ public class AdoptionService {
 
     public void disapprove(AdoptionDisapprovalDto dto) {
         adoption.setStatus(AdoptionStatus.REJECTED);
-        repository.save(adoption);
+        adoptionRepository.save(adoption);
 
         emailService.sendEmail(
                 adoption.getTutor().getEmail(),
