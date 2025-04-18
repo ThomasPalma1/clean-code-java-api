@@ -1,5 +1,8 @@
 package br.com.alura.adopet.api.controller;
 
+import br.com.alura.adopet.api.dto.AdoptionApprovalDto;
+import br.com.alura.adopet.api.dto.AdoptionDisapprovalDto;
+import br.com.alura.adopet.api.dto.AdoptionRequestDto;
 import br.com.alura.adopet.api.model.Adoption;
 
 import br.com.alura.adopet.api.service.AdoptionService;
@@ -21,10 +24,10 @@ public class AdoptionController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> requestAdoption(@RequestBody @Valid Adoption adoption) {
+    public ResponseEntity<String> requestAdoption(@RequestBody @Valid AdoptionRequestDto dto) {
 
         try {
-            this.adoptionService.request(adoption);
+            this.adoptionService.request(dto);
             return ResponseEntity.ok("Adoption requested successfully!");
         } catch (ValidationException e) {
 
@@ -36,16 +39,16 @@ public class AdoptionController {
 
     @PutMapping("/approve")
     @Transactional
-    public ResponseEntity<String> approveAdoption(@RequestBody @Valid Adoption adoption) {
-        this.adoptionService.approve(adoption);
+    public ResponseEntity<String> approveAdoption(@RequestBody @Valid AdoptionApprovalDto dto) {
+        this.adoptionService.approve(dto);
         return ResponseEntity.ok().build();
     }
 
 
     @PutMapping("/disapprove")
     @Transactional
-    public ResponseEntity<String> disapproveAdoption(@RequestBody @Valid Adoption adoption) {
-        this.adoptionService.disapprove(adoption);
+    public ResponseEntity<String> disapproveAdoption(@RequestBody @Valid AdoptionDisapprovalDto dto) {
+        this.adoptionService.disapprove(dto);
         return ResponseEntity.ok().build();
 
     }

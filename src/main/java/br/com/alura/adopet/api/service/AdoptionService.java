@@ -1,5 +1,8 @@
 package br.com.alura.adopet.api.service;
 
+import br.com.alura.adopet.api.dto.AdoptionApprovalDto;
+import br.com.alura.adopet.api.dto.AdoptionDisapprovalDto;
+import br.com.alura.adopet.api.dto.AdoptionRequestDto;
 import br.com.alura.adopet.api.exception.ValidationException;
 import br.com.alura.adopet.api.model.Adoption;
 import br.com.alura.adopet.api.model.AdoptionStatus;
@@ -22,7 +25,7 @@ public class AdoptionService {
     private EmailService emailService;
 
 
-    public void request(Adoption adoption) {
+    public void request(AdoptionRequestDto dto) {
         if (adoption.getPet().getAdotado() == true) {
             throw new ValidationException("Pet has already been adopted!");
 
@@ -64,7 +67,7 @@ public class AdoptionService {
 
     }
 
-    public void approve(Adoption adoption) {
+    public void approve(AdoptionApprovalDto dto) {
         adoption.setStatus(AdoptionStatus.APPROVED);
         repository.save(adoption);
 
@@ -81,7 +84,7 @@ public class AdoptionService {
 
     }
 
-    public void disapprove(Adoption adoption) {
+    public void disapprove(AdoptionDisapprovalDto dto) {
         adoption.setStatus(AdoptionStatus.REJECTED);
         repository.save(adoption);
 
