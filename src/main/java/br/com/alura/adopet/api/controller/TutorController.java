@@ -1,6 +1,6 @@
 package br.com.alura.adopet.api.controller;
 
-import br.com.alura.adopet.api.model.Tutor;
+import br.com.alura.adopet.api.model.PetOwner;
 import br.com.alura.adopet.api.repository.TutorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +17,22 @@ public class TutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> cadastrar(@RequestBody @Valid Tutor tutor) {
-        boolean telefoneJaCadastrado = repository.existsByTelefone(tutor.getTelefone());
-        boolean emailJaCadastrado = repository.existsByEmail(tutor.getEmail());
+    public ResponseEntity<String> cadastrar(@RequestBody @Valid PetOwner petOwner) {
+        boolean telefoneJaCadastrado = repository.existsByTelefone(petOwner.getTelefone());
+        boolean emailJaCadastrado = repository.existsByEmail(petOwner.getEmail());
 
         if (telefoneJaCadastrado || emailJaCadastrado) {
             return ResponseEntity.badRequest().body("Dados já cadastrados para outro tutor!");
         } else {
-            repository.save(tutor);
+            repository.save(petOwner);
             return ResponseEntity.ok().build();
         }
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<String> atualizar(@RequestBody @Valid Tutor tutor) {
-        repository.save(tutor);
+    public ResponseEntity<String> atualizar(@RequestBody @Valid PetOwner petOwner) {
+        repository.save(petOwner);
         return ResponseEntity.ok().build();
     }
 

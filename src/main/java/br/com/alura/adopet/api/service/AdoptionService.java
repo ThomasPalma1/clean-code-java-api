@@ -7,7 +7,7 @@ import br.com.alura.adopet.api.exception.ValidationException;
 import br.com.alura.adopet.api.model.Adoption;
 import br.com.alura.adopet.api.model.AdoptionStatus;
 import br.com.alura.adopet.api.model.Pet;
-import br.com.alura.adopet.api.model.Tutor;
+import br.com.alura.adopet.api.model.PetOwner;
 import br.com.alura.adopet.api.repository.AdoptionRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
@@ -38,7 +38,7 @@ public class AdoptionService {
     public void request(AdoptionRequestDto dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
 
-        Tutor tutor = tutorRepository.getReferenceById(dto.idTutor());
+        PetOwner petOwner = tutorRepository.getReferenceById(dto.idTutor());
 
 
         if (pet.getAdotado() == true) {
@@ -47,7 +47,7 @@ public class AdoptionService {
         } else {
             List<Adoption> adocoes = adoptionRepository.findAll();
             for (Adoption a : adocoes) {
-                if (a.getTutor() == tutor && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
+                if (a.getTutor() == petOwner && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
                     throw new ValidationException("Tutor already has another adoption awaiting evaluation!");
                 }
             }
@@ -58,7 +58,7 @@ public class AdoptionService {
             }
             for (Adoption a : adocoes) {
                 int contador = 0;
-                if (a.getTutor() == tutor && a.getStatus() == AdoptionStatus.APPROVED) {
+                if (a.getTutor() == petOwner && a.getStatus() == AdoptionStatus.APPROVED) {
                     contador = contador + 1;
                 }
                 if (contador == 5) {
@@ -73,7 +73,7 @@ public class AdoptionService {
         adoption.setStatus(AdoptionStatus.PENDING_REVIEW);
 
         adoption.setPet(pet);
-        adoption.setTutor(tutor);
+        adoption.setTutor(petOwner);
         adoption.setMotivo(dto.reason());
 
         adoptionRepository.save(adoption);

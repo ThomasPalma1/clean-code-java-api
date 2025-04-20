@@ -73,12 +73,12 @@ public class Adoption {
         this.data = data;
     }
 
-    public Tutor getTutor() {
-        return tutor;
+    public PetOwner getTutor() {
+        return petOwner;
     }
 
-    public void setTutor(Tutor tutor) {
-        this.tutor = tutor;
+    public void setTutor(PetOwner petOwner) {
+        this.petOwner = petOwner;
     }
 
     public Pet getPet() {

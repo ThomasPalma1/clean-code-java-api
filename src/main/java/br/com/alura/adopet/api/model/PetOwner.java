@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tutores")
-public class Tutor {
+public class PetOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +40,8 @@ public class Tutor {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Tutor tutor = (Tutor) o;
-        return Objects.equals(id, tutor.id);
+        PetOwner petOwner = (PetOwner) o;
+        return Objects.equals(id, petOwner.id);
     }
 
     @Override
