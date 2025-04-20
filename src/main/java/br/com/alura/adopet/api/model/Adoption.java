@@ -23,9 +23,9 @@ public class Adoption {
 
     @NotNull
     @ManyToOne
-    @JsonBackReference("tutor_adocoes")
-    @JoinColumn(name = "tutor_id")
-    private Tutor tutor;
+    @JsonBackReference("pet_owner_adoptions")
+    @JoinColumn(name = "pet_owner_id")
+    private PetOwner petOwner;
 
     @NotNull
     @OneToOne
