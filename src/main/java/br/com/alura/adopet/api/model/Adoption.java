@@ -44,6 +44,62 @@ public class Adoption {
     @Column(name = "justification_status")
     private String justificationStatus;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
+    public PetOwner getPetOwner() {
+        return petOwner;
+    }
+
+    public void setPetOwner(PetOwner petOwner) {
+        this.petOwner = petOwner;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public AdoptionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AdoptionStatus status) {
+        this.status = status;
+    }
+
+    public String getJustificationStatus() {
+        return justificationStatus;
+    }
+
+    public void setJustificationStatus(String justificationStatus) {
+        this.justificationStatus = justificationStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,61 +111,5 @@ public class Adoption {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public String getJustificationStatus() {
-        return justificationStatus;
-    }
-
-    public void setJustificationStatus(String justificationStatus) {
-        this.justificationStatus = justificationStatus;
-    }
-
-    public AdoptionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AdoptionStatus status) {
-        this.status = status;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public PetOwner getPetOwner() {
-        return petOwner;
-    }
-
-    public void setPetOwner(PetOwner petOwner) {
-        this.petOwner = petOwner;
-    }
-
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
