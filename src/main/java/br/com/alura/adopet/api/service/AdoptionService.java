@@ -10,7 +10,7 @@ import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.model.PetOwner;
 import br.com.alura.adopet.api.repository.AdoptionRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
-import br.com.alura.adopet.api.repository.TutorRepository;
+import br.com.alura.adopet.api.repository.PetOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class AdoptionService {
     private AdoptionRepository adoptionRepository;
 
     @Autowired
-    private TutorRepository tutorRepository;
+    private PetOwnerRepository petOwnerRepository;
 
     @Autowired
     private PetRepository petRepository;
@@ -38,7 +38,7 @@ public class AdoptionService {
     public void request(AdoptionRequestDto dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
 
-        PetOwner petOwner = tutorRepository.getReferenceById(dto.idTutor());
+        PetOwner petOwner = petOwnerRepository.getReferenceById(dto.idPetOwner());
 
 
         if (pet.getAdotado() == true) {

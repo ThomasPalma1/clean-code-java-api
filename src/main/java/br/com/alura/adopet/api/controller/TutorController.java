@@ -1,7 +1,7 @@
 package br.com.alura.adopet.api.controller;
 
 import br.com.alura.adopet.api.model.PetOwner;
-import br.com.alura.adopet.api.repository.TutorRepository;
+import br.com.alura.adopet.api.repository.PetOwnerRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class TutorController {
 
     @Autowired
-    private TutorRepository repository;
+    private PetOwnerRepository repository;
 
     @PostMapping
     @Transactional
