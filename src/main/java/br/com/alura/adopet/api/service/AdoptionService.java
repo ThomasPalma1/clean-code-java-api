@@ -43,20 +43,20 @@ public class AdoptionService {
 
         if (pet.getAdotado() == true) {
             throw new ValidationException("Pet has already been adopted!");
+         else {
+            List<Adoption> adoptions = adoptionRepository.findAll();
 
-        } else {
-            List<Adoption> adocoes = adoptionRepository.findAll();
-            for (Adoption a : adocoes) {
+            for (Adoption a : adoptions) {
                 if (a.getPetOwner() == petOwner && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
                     throw new ValidationException("Tutor already has another adoption awaiting evaluation!");
                 }
             }
-            for (Adoption a : adocoes) {
+            for (Adoption a : adoptions) {
                 if (a.getPet() == pet && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
                     throw new ValidationException("Pet is now awaiting evaluation to be adopted!");
                 }
             }
-            for (Adoption a : adocoes) {
+            for (Adoption a : adoptions) {
                 int contador = 0;
                 if (a.getPetOwner() == petOwner && a.getStatus() == AdoptionStatus.APPROVED) {
                     contador = contador + 1;
