@@ -36,13 +36,10 @@ public class AdoptionService {
 
 
     public void request(AdoptionRequestDto dto) {
-        Pet pet = petRepository.getReferenceById(dto.idPet());
 
         PetOwner petOwner = petOwnerRepository.getReferenceById(dto.idPetOwner());
 
 
-        if (pet.getAdotado() == true) {
-            throw new ValidationException("Pet has already been adopted!");
          else {
             List<Adoption> adoptions = adoptionRepository.findAll();
 
