@@ -3,9 +3,10 @@ package br.com.alura.adopet.api.service;
 import br.com.alura.adopet.api.dto.AdoptionApprovalDto;
 import br.com.alura.adopet.api.dto.AdoptionDisapprovalDto;
 import br.com.alura.adopet.api.dto.AdoptionRequestDto;
-import br.com.alura.adopet.api.exception.ValidationException;
+
 import br.com.alura.adopet.api.model.Adoption;
 import br.com.alura.adopet.api.model.AdoptionStatus;
+
 import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.model.PetOwner;
 import br.com.alura.adopet.api.repository.AdoptionRepository;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+
 
 @Service
 public class AdoptionService {
@@ -37,32 +38,8 @@ public class AdoptionService {
 
     public void request(AdoptionRequestDto dto) {
 
+        Pet pet = petRepository.getReferenceById(dto.idPet());
         PetOwner petOwner = petOwnerRepository.getReferenceById(dto.idPetOwner());
-
-
-         else {
-            List<Adoption> adoptions = adoptionRepository.findAll();
-
-            for (Adoption a : adoptions) {
-                if (a.getPetOwner() == petOwner && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
-                    throw new ValidationException("Tutor already has another adoption awaiting evaluation!");
-                }
-            }
-            for (Adoption a : adoptions) {
-                if (a.getPet() == pet && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
-                    throw new ValidationException("Pet is now awaiting evaluation to be adopted!");
-                }
-            }
-            for (Adoption a : adoptions) {
-                int contador = 0;
-                if (a.getPetOwner() == petOwner && a.getStatus() == AdoptionStatus.APPROVED) {
-                    contador = contador + 1;
-                }
-                if (contador == 5) {
-                    throw new ValidationException("Tutor has reached the maximum limit of 5 adoptions!");
-                }
-            }
-        }
 
         Adoption adoption = new Adoption();
 
