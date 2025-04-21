@@ -3,8 +3,6 @@ package br.com.alura.adopet.api.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -21,19 +19,16 @@ public class Adoption {
     @Column(name = "data")
     private LocalDateTime data;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "pet_owner_id")
     @JsonBackReference("pet_owner_adoptions")
     private PetOwner petOwner;
 
-    @NotNull
     @OneToOne
     @JoinColumn(name = "pet_id")
     @JsonManagedReference("pet_adoption")
     private Pet pet;
 
-    @NotBlank
     @Column(name = "reason")
     private String reason;
 
