@@ -47,7 +47,7 @@ public class AdoptionService {
         } else {
             List<Adoption> adocoes = adoptionRepository.findAll();
             for (Adoption a : adocoes) {
-                if (a.getTutor() == petOwner && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
+                if (a.getPetOwner() == petOwner && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
                     throw new ValidationException("Tutor already has another adoption awaiting evaluation!");
                 }
             }
@@ -58,7 +58,7 @@ public class AdoptionService {
             }
             for (Adoption a : adocoes) {
                 int contador = 0;
-                if (a.getTutor() == petOwner && a.getStatus() == AdoptionStatus.APPROVED) {
+                if (a.getPetOwner() == petOwner && a.getStatus() == AdoptionStatus.APPROVED) {
                     contador = contador + 1;
                 }
                 if (contador == 5) {
@@ -73,8 +73,8 @@ public class AdoptionService {
         adoption.setStatus(AdoptionStatus.PENDING_REVIEW);
 
         adoption.setPet(pet);
-        adoption.setTutor(petOwner);
-        adoption.setMotivo(dto.reason());
+        adoption.setPetOwner(petOwner);
+        adoption.setReason(dto.reason());
 
         adoptionRepository.save(adoption);
 
@@ -94,9 +94,9 @@ public class AdoptionService {
         adoption.setStatus(AdoptionStatus.APPROVED);
 
         emailService.sendEmail(
-                adoption.getTutor().getEmail(),
+                adoption.getPetOwner().getEmail(),
                 "Adoption approved",
-                "Congratulations " + adoption.getTutor().getNome() + "!\n\n" +
+                "Congratulations " + adoption.getPetOwner().getNome() + "!\n\n" +
                         "Your adoption of the pet " + adoption.getPet().getNome() + ", requested on " +
                         adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", has been approved.\n" +
@@ -109,16 +109,16 @@ public class AdoptionService {
     public void disapprove(AdoptionDisapprovalDto dto) {
         Adoption adoption = adoptionRepository.getReferenceById(dto.idAdoption());
         adoption.setStatus(AdoptionStatus.REJECTED);
-        adoption.setJustificativaStatus(dto.reason());
+        adoption.setJustificationStatus(dto.reason());
 
         emailService.sendEmail(
-                adoption.getTutor().getEmail(),
+                adoption.getPetOwner().getEmail(),
                 "Adoption rejected",
-                "Hello " + adoption.getTutor().getNome() + "!\n\n" +
+                "Hello " + adoption.getPetOwner().getNome() + "!\n\n" +
                         "Unfortunately, your adoption request for the pet " + adoption.getPet().getNome() +
                         ", submitted on " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", was rejected by the shelter " + adoption.getPet().getAbrigo().getNome() +
-                        " with the following justification: " + adoption.getJustificativaStatus()
+                        " with the following justification: " + adoption.getJustificationStatus()
         );
 
     }
