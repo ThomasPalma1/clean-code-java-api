@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PetWithAdoptionInProgressValidation {
+public class PetWithAdoptionInProgressValidation implements AdoptionRequestValidation {
 
     @Autowired
     private AdoptionRepository adoptionRepository;

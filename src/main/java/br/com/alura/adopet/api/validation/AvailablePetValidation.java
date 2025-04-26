@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class AvailablePetValidation {
+public class AvailablePetValidation implements AdoptionRequestValidation {
 
     @Autowired
     private PetRepository petRepository;
 
-    public void validateAvailability(AdoptionRequestDto dto) {
+    public void validate(AdoptionRequestDto dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
         if (pet.getAdotado()) {
             throw new ValidationException("Pet has already been adopted!");

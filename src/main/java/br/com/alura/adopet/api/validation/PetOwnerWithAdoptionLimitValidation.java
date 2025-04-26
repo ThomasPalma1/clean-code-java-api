@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PetOwnerWithAdoptionLimitValidation {
+public class PetOwnerWithAdoptionLimitValidation implements AdoptionRequestValidation {
 
     @Autowired
     private AdoptionRepository adoptionRepository;
@@ -21,7 +21,7 @@ public class PetOwnerWithAdoptionLimitValidation {
     @Autowired
     private PetOwnerRepository petOwnerRepository;
 
-    private void validate(AdoptionRequestDto dto) {
+    public void validate(AdoptionRequestDto dto) {
         List<Adoption> adoptions = adoptionRepository.findAll();
         PetOwner petOwner = petOwnerRepository.getReferenceById(dto.idPetOwner());
         for (Adoption a : adoptions) {
