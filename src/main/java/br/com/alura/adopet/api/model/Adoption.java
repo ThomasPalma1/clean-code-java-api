@@ -21,30 +21,21 @@ public class Adoption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "data")
     private LocalDateTime data;
 
     @ManyToOne
-    @JoinColumn(name = "pet_owner_id")
-    @JsonBackReference("pet_owner_adoptions")
     private PetOwner petOwner;
 
     @OneToOne
-    @JoinColumn(name = "pet_id")
-    @JsonManagedReference("pet_adoption")
     private Pet pet;
 
-    @Column(name = "reason")
     private String reason;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private AdoptionStatus status;
 
-    @Column(name = "justification_status")
     private String justificationStatus;
 
     @Override
