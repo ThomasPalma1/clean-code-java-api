@@ -21,18 +21,13 @@ public class PetWithAdoptionInProgressValidation implements AdoptionRequestValid
     @Autowired
     private AdoptionRepository adoptionRepository;
 
-    @Autowired
-    private PetRepository petRepository;
-
     public void validate(AdoptionRequestDto dto) {
-        List<Adoption> adoptions = adoptionRepository.findAll();
 
-        Pet pet = petRepository.getReferenceById(dto.idPet());
-
-        for (Adoption a : adoptions) {
-            if (a.getPet() == pet && a.getStatus() == AdoptionStatus.PENDING_REVIEW) {
-                throw new ValidationException("Pet is now awaiting evaluation to be adopted!");
-            }
+        boolean petHasAdoptionInProgress = adoptionRepository
+                .existsByPetIdAndStatus(dto.idPet(),
+                        AdoptionStatus.PENDING_REVIEW);
+        if (petHasAdoptionInProgress) {
+            throw new ValidationException("Pet is now awaiting evaluation to be adopted!");
         }
     }
 }
