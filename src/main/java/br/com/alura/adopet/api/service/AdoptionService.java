@@ -12,11 +12,13 @@ import br.com.alura.adopet.api.model.PetOwner;
 import br.com.alura.adopet.api.repository.AdoptionRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.PetOwnerRepository;
+import br.com.alura.adopet.api.validation.AdoptionRequestValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 @Service
@@ -35,14 +37,18 @@ public class AdoptionService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private List<AdoptionRequestValidation> validations;
+
 
     public void request(AdoptionRequestDto dto) {
 
         Pet pet = petRepository.getReferenceById(dto.idPet());
         PetOwner petOwner = petOwnerRepository.getReferenceById(dto.idPetOwner());
 
-        Adoption adoption = new Adoption();
+        validations.forEach(v -> v.validate(dto));
 
+        Adoption adoption = new Adoption();
         adoption.setData(LocalDateTime.now());
         adoption.setStatus(AdoptionStatus.PENDING_REVIEW);
 
