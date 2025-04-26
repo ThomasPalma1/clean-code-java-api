@@ -16,7 +16,6 @@ import br.com.alura.adopet.api.validation.AdoptionRequestValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -49,12 +48,6 @@ public class AdoptionService {
         validations.forEach(v -> v.validate(dto));
 
         Adoption adoption = new Adoption();
-        adoption.setData(LocalDateTime.now());
-        adoption.setStatus(AdoptionStatus.PENDING_REVIEW);
-
-        adoption.setPet(pet);
-        adoption.setPetOwner(petOwner);
-        adoption.setReason(dto.reason());
 
         adoptionRepository.save(adoption);
 
@@ -71,7 +64,7 @@ public class AdoptionService {
 
     public void approve(AdoptionApprovalDto dto) {
         Adoption adoption = adoptionRepository.getReferenceById(dto.idAdoption());
-        adoption.setStatus(AdoptionStatus.APPROVED);
+        adoption.MarkAsApproved();
 
         emailService.sendEmail(
                 adoption.getPetOwner().getEmail(),
@@ -88,8 +81,7 @@ public class AdoptionService {
 
     public void disapprove(AdoptionDisapprovalDto dto) {
         Adoption adoption = adoptionRepository.getReferenceById(dto.idAdoption());
-        adoption.setStatus(AdoptionStatus.REJECTED);
-        adoption.setJustificationStatus(dto.reason());
+        adoption.MarkAsDisapproved(dto.reason());
 
         emailService.sendEmail(
                 adoption.getPetOwner().getEmail(),
