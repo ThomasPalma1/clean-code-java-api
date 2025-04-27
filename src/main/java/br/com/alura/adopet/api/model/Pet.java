@@ -47,7 +47,7 @@ public class Pet {
     @ManyToOne
     @JsonBackReference("abrigo_pets")
     @JoinColumn(name = "abrigo_id")
-    private Abrigo abrigo;
+    private Shelter shelter;
 
     @OneToOne(mappedBy = "pet")
     @JsonBackReference("adocao_pets")
@@ -130,12 +130,12 @@ public class Pet {
         this.adotado = adotado;
     }
 
-    public Abrigo getAbrigo() {
-        return abrigo;
+    public Shelter getAbrigo() {
+        return shelter;
     }
 
-    public void setAbrigo(Abrigo abrigo) {
-        this.abrigo = abrigo;
+    public void setAbrigo(Shelter shelter) {
+        this.shelter = shelter;
     }
 
     public Adoption getAdocao() {
