@@ -19,7 +19,7 @@ public class Pet {
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(name = "tipo")
-    private TipoPet tipo;
+    private PetType tipo;
 
     @NotBlank
     @Column(name = "nome")
@@ -74,11 +74,11 @@ public class Pet {
         this.id = id;
     }
 
-    public TipoPet getTipo() {
+    public PetType getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoPet tipo) {
+    public void setTipo(PetType tipo) {
         this.tipo = tipo;
     }
 
