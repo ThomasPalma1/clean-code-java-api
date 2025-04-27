@@ -54,7 +54,7 @@ public class AdoptionService {
         emailService.sendEmail(
                 adoption.getPet().getAbrigo().getEmail(),
                 "Adoption request",
-                "Hello, " + adoption.getPet().getAbrigo().getNome() + "!\n\n" +
+                "Hello, " + adoption.getPet().getAbrigo().getName() + "!\n\n" +
                         "An adoption request has been submitted today for the pet: " +
                         adoption.getPet().getNome() + ".\n" +
                         "Please review it for approval or rejection."
@@ -73,7 +73,7 @@ public class AdoptionService {
                         "Your adoption of the pet " + adoption.getPet().getNome() + ", requested on " +
                         adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", has been approved.\n" +
-                        "Please contact the shelter " + adoption.getPet().getAbrigo().getNome() +
+                        "Please contact the shelter " + adoption.getPet().getAbrigo().getName() +
                         " to schedule the pickup of your pet."
         );
 
@@ -89,7 +89,7 @@ public class AdoptionService {
                 "Hello " + adoption.getPetOwner().getNome() + "!\n\n" +
                         "Unfortunately, your adoption request for the pet " + adoption.getPet().getNome() +
                         ", submitted on " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
-                        ", was rejected by the shelter " + adoption.getPet().getAbrigo().getNome() +
+                        ", was rejected by the shelter " + adoption.getPet().getAbrigo().getName() +
                         " with the following justification: " + adoption.getJustificationStatus()
         );
 

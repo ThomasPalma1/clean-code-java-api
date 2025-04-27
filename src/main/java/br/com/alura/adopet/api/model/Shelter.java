@@ -4,14 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
-import java.util.Objects;
 
+
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -21,6 +19,7 @@ import java.util.Objects;
 public class Shelter {
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -35,22 +34,9 @@ public class Shelter {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "abrigo",
+    @OneToMany(mappedBy = "shelter",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<Pet> pets;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Shelter shelter = (Shelter) o;
-        return Objects.equals(id, shelter.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 
 }
