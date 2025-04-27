@@ -38,6 +38,7 @@ public class Pet {
     @NotNull
     private Float petWeight;
 
+    @NotNull
     private Boolean petIsAdopted;
 
     @ManyToOne

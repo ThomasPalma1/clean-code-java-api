@@ -24,15 +24,15 @@ public class Shelter {
     private Long id;
 
     @NotBlank
-    private String name;
+    private String shelterName;
 
     @NotBlank
     @Pattern(regexp = "\\(?\\d{2}\\)?\\d?\\d{4}-?\\d{4}")
-    private String telephone;
+    private String shelterPhoneNumber;
 
     @NotBlank
     @Email
-    private String email;
+    private String shelterEmail;
 
     @OneToMany(mappedBy = "shelter",
             cascade = CascadeType.ALL,

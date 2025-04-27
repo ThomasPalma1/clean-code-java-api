@@ -29,7 +29,7 @@ public class ShelterController {
     public ResponseEntity<String> cadastrar(@RequestBody @Valid Shelter shelter) {
         boolean nomeJaCadastrado = repository.existsByName(shelter.getNome());
         boolean telefoneJaCadastrado = repository.existsByTelephone(shelter.getTelefone());
-        boolean emailJaCadastrado = repository.existsByEmail(shelter.getEmail());
+        boolean emailJaCadastrado = repository.existsByEmail(shelter.getShelterEmail());
 
         if (nomeJaCadastrado || telefoneJaCadastrado || emailJaCadastrado) {
             return ResponseEntity.badRequest().body("Dados já cadastrados para outro abrigo!");
