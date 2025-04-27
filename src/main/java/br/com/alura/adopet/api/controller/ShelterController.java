@@ -64,7 +64,7 @@ public class ShelterController {
             Long id = Long.parseLong(idOuNome);
             Shelter shelter = repository.getReferenceById(id);
             pet.setAbrigo(shelter);
-            pet.setAdotado(false);
+            pet.setPetIsAdopted(false);
             shelter.getPets().add(pet);
             repository.save(shelter);
             return ResponseEntity.ok().build();
@@ -74,7 +74,7 @@ public class ShelterController {
             try {
                 Shelter shelter = repository.findByName(idOuNome);
                 pet.setAbrigo(shelter);
-                pet.setAdotado(false);
+                pet.setPetIsAdopted(false);
                 shelter.getPets().add(pet);
                 repository.save(shelter);
                 return ResponseEntity.ok().build();

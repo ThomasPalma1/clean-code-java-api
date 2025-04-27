@@ -24,7 +24,7 @@ public class PetOwner {
 
     @NotBlank
     @Pattern(regexp = "\\(?\\d{2}\\)?\\d?\\d{4}-?\\d{4}")
-    @Column(name = "telefone")
+    @Column(name = "telephone")
     private String telefone;
 
     @NotBlank

@@ -5,7 +5,6 @@ import br.com.alura.adopet.api.dto.AdoptionDisapprovalDto;
 import br.com.alura.adopet.api.dto.AdoptionRequestDto;
 
 import br.com.alura.adopet.api.model.Adoption;
-import br.com.alura.adopet.api.model.AdoptionStatus;
 
 import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.model.PetOwner;
@@ -56,7 +55,7 @@ public class AdoptionService {
                 "Adoption request",
                 "Hello, " + adoption.getPet().getAbrigo().getName() + "!\n\n" +
                         "An adoption request has been submitted today for the pet: " +
-                        adoption.getPet().getNome() + ".\n" +
+                        adoption.getPet().getPetName() + ".\n" +
                         "Please review it for approval or rejection."
         );
 
@@ -70,7 +69,7 @@ public class AdoptionService {
                 adoption.getPetOwner().getEmail(),
                 "Adoption approved",
                 "Congratulations " + adoption.getPetOwner().getNome() + "!\n\n" +
-                        "Your adoption of the pet " + adoption.getPet().getNome() + ", requested on " +
+                        "Your adoption of the pet " + adoption.getPet().getPetName() + ", requested on " +
                         adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", has been approved.\n" +
                         "Please contact the shelter " + adoption.getPet().getAbrigo().getName() +
@@ -87,7 +86,7 @@ public class AdoptionService {
                 adoption.getPetOwner().getEmail(),
                 "Adoption rejected",
                 "Hello " + adoption.getPetOwner().getNome() + "!\n\n" +
-                        "Unfortunately, your adoption request for the pet " + adoption.getPet().getNome() +
+                        "Unfortunately, your adoption request for the pet " + adoption.getPet().getPetName() +
                         ", submitted on " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", was rejected by the shelter " + adoption.getPet().getAbrigo().getName() +
                         " with the following justification: " + adoption.getJustificationStatus()

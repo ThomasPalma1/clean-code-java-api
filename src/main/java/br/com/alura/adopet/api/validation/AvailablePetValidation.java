@@ -16,7 +16,7 @@ public class AvailablePetValidation implements AdoptionRequestValidation {
 
     public void validate(AdoptionRequestDto dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
-        if (pet.getAdotado()) {
+        if (pet.getPetIsAdopted()) {
             throw new ValidationException("Pet has already been adopted!");
 
         }

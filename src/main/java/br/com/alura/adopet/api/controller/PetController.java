@@ -23,7 +23,7 @@ public class PetController {
         List<Pet> pets = repository.findAll();
         List<Pet> disponiveis = new ArrayList<>();
         for (Pet pet : pets) {
-            if (pet.getAdotado() == false) {
+            if (pet.getPetIsAdopted() == false) {
                 disponiveis.add(pet);
             }
         }
