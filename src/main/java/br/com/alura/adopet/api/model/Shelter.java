@@ -35,7 +35,9 @@ public class Shelter {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "abrigo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "abrigo",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     private List<Pet> pets;
 
     @Override

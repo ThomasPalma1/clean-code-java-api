@@ -2,7 +2,7 @@ package br.com.alura.adopet.api.controller;
 
 import br.com.alura.adopet.api.model.Shelter;
 import br.com.alura.adopet.api.model.Pet;
-import br.com.alura.adopet.api.repository.AbrigoRepository;
+import br.com.alura.adopet.api.repository.ShelterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/abrigos")
-public class AbrigoController {
+public class ShelterController {
 
     @Autowired
-    private AbrigoRepository repository;
+    private ShelterRepository repository;
 
     @GetMapping
     public ResponseEntity<List<Shelter>> listar() {
@@ -27,8 +27,8 @@ public class AbrigoController {
     @PostMapping
     @Transactional
     public ResponseEntity<String> cadastrar(@RequestBody @Valid Shelter shelter) {
-        boolean nomeJaCadastrado = repository.existsByNome(shelter.getNome());
-        boolean telefoneJaCadastrado = repository.existsByTelefone(shelter.getTelefone());
+        boolean nomeJaCadastrado = repository.existsByName(shelter.getNome());
+        boolean telefoneJaCadastrado = repository.existsByTelephone(shelter.getTelefone());
         boolean emailJaCadastrado = repository.existsByEmail(shelter.getEmail());
 
         if (nomeJaCadastrado || telefoneJaCadastrado || emailJaCadastrado) {
@@ -49,7 +49,7 @@ public class AbrigoController {
             return ResponseEntity.notFound().build();
         } catch (NumberFormatException e) {
             try {
-                List<Pet> pets = repository.findByNome(idOuNome).getPets();
+                List<Pet> pets = repository.findByName(idOuNome).getPets();
                 return ResponseEntity.ok(pets);
             } catch (EntityNotFoundException enfe) {
                 return ResponseEntity.notFound().build();
@@ -72,7 +72,7 @@ public class AbrigoController {
             return ResponseEntity.notFound().build();
         } catch (NumberFormatException nfe) {
             try {
-                Shelter shelter = repository.findByNome(idOuNome);
+                Shelter shelter = repository.findByName(idOuNome);
                 pet.setAbrigo(shelter);
                 pet.setAdotado(false);
                 shelter.getPets().add(pet);
