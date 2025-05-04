@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/adopet
+    url: jdbc:postgresql://localhost:5432/adopet
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
@@ -15,6 +15,11 @@ spring:
           auth: true
           starttls:
             enable: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 
   springdoc:
     api-docs:
