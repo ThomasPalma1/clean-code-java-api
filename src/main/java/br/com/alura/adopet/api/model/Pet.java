@@ -1,5 +1,6 @@
 package br.com.alura.adopet.api.model;
 
+import br.com.alura.adopet.api.dto.RegisterPetDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -47,4 +48,14 @@ public class Pet {
 
     @OneToOne(mappedBy = "pet")
     private Adoption adoption;
+
+    public Pet(RegisterPetDto registerPetDto, Shelter shelter) {
+        this.petType = registerPetDto.petType();
+        this.petName = registerPetDto.petName();
+        this.petBreed = registerPetDto.petBreed();
+        this.petAge = registerPetDto.petAge();
+        this.petColor = registerPetDto.petColor();
+        this.petWeight = registerPetDto.petWeight();
+        this.shelter = shelter;
+    }
 }

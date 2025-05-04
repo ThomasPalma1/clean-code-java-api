@@ -1,5 +1,6 @@
 package br.com.alura.adopet.api.model;
 
+import br.com.alura.adopet.api.dto.RegisterShelterDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -39,4 +40,9 @@ public class Shelter {
             fetch = FetchType.EAGER)
     private List<Pet> pets;
 
+    public Shelter(RegisterShelterDto registerShelterDto) {
+        this.shelterName = registerShelterDto.shelterName();
+        this.shelterPhoneNumber = registerShelterDto.shelterPhoneNumber();
+        this.shelterEmail = registerShelterDto.shelterEmail();
+    }
 }
