@@ -47,13 +47,12 @@ public class AdoptionService {
         validations.forEach(v -> v.validate(adoptionRequestDto));
 
         Adoption adoption = new Adoption();
-
         adoptionRepository.save(adoption);
 
         emailService.sendEmail(
-                adoption.getPet().getAbrigo().getEmail(),
+                adoption.getPet().getShelter().getShelterEmail(),
                 "Adoption request",
-                "Hello, " + adoption.getPet().getAbrigo().getName() + "!\n\n" +
+                "Hello, " + adoption.getPet().getShelter().getShelterName() + "!\n\n" +
                         "An adoption request has been submitted today for the pet: " +
                         adoption.getPet().getPetName() + ".\n" +
                         "Please review it for approval or rejection."
@@ -72,7 +71,7 @@ public class AdoptionService {
                         "Your adoption of the pet " + adoption.getPet().getPetName() + ", requested on " +
                         adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", has been approved.\n" +
-                        "Please contact the shelter " + adoption.getPet().getAbrigo().getName() +
+                        "Please contact the shelter " + adoption.getPet().getShelter().getShelterName() +
                         " to schedule the pickup of your pet."
         );
 
@@ -88,7 +87,7 @@ public class AdoptionService {
                 "Hello " + adoption.getPetOwner().getNome() + "!\n\n" +
                         "Unfortunately, your adoption request for the pet " + adoption.getPet().getPetName() +
                         ", submitted on " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
-                        ", was rejected by the shelter " + adoption.getPet().getAbrigo().getName() +
+                        ", was rejected by the shelter " + adoption.getPet().getShelter().getShelterName() +
                         " with the following justification: " + adoption.getJustificationStatus()
         );
 
