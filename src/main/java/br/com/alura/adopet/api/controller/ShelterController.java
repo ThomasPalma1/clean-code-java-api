@@ -1,9 +1,14 @@
 package br.com.alura.adopet.api.controller;
 
+
+import br.com.alura.adopet.api.dto.PetDto;
+import br.com.alura.adopet.api.dto.RegisterPetDto;
+import br.com.alura.adopet.api.dto.RegisterShelterDto;
+import br.com.alura.adopet.api.dto.ShelterDto;
+import br.com.alura.adopet.api.exception.ValidationException;
 import br.com.alura.adopet.api.model.Shelter;
-import br.com.alura.adopet.api.model.Pet;
-import br.com.alura.adopet.api.repository.ShelterRepository;
-import jakarta.persistence.EntityNotFoundException;
+import br.com.alura.adopet.api.service.PetService;
+import br.com.alura.adopet.api.service.ShelterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,74 +18,56 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/abrigos")
+@RequestMapping("/shelters")
 public class ShelterController {
 
     @Autowired
-    private ShelterRepository repository;
+    private ShelterService shelterService;
+
+    @Autowired
+    private PetService petService;
 
     @GetMapping
-    public ResponseEntity<List<Shelter>> listar() {
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<ShelterDto>> list() {
+        List<ShelterDto> shelters = shelterService.list();
+        return ResponseEntity.ok(shelters);
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> cadastrar(@RequestBody @Valid Shelter shelter) {
-        boolean nomeJaCadastrado = repository.existsByName(shelter.getNome());
-        boolean telefoneJaCadastrado = repository.existsByTelephone(shelter.getTelefone());
-        boolean emailJaCadastrado = repository.existsByEmail(shelter.getShelterEmail());
-
-        if (nomeJaCadastrado || telefoneJaCadastrado || emailJaCadastrado) {
-            return ResponseEntity.badRequest().body("Dados já cadastrados para outro abrigo!");
-        } else {
-            repository.save(shelter);
-            return ResponseEntity.ok().build();
-        }
-    }
-
-    @GetMapping("/{idOuNome}/pets")
-    public ResponseEntity<List<Pet>> listarPets(@PathVariable String idOuNome) {
+    public ResponseEntity<String> register(
+            @RequestBody @Valid RegisterShelterDto registerShelterDto) {
         try {
-            Long id = Long.parseLong(idOuNome);
-            List<Pet> pets = repository.getReferenceById(id).getPets();
-            return ResponseEntity.ok(pets);
-        } catch (EntityNotFoundException enfe) {
-            return ResponseEntity.notFound().build();
-        } catch (NumberFormatException e) {
-            try {
-                List<Pet> pets = repository.findByName(idOuNome).getPets();
-                return ResponseEntity.ok(pets);
-            } catch (EntityNotFoundException enfe) {
-                return ResponseEntity.notFound().build();
-            }
+            shelterService.register(registerShelterDto);
+            return ResponseEntity.ok().build();
+        } catch (ValidationException exception) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(exception.getMessage());
         }
     }
 
-    @PostMapping("/{idOuNome}/pets")
+    @GetMapping("/{idOrName}/pets")
+    public ResponseEntity<List<PetDto>> listPets(@PathVariable String idOrName) {
+        try {
+            List<PetDto> shelterPets = shelterService.listShelterPets(idOrName);
+            return ResponseEntity.ok(shelterPets);
+        } catch (ValidationException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{idOrName}/pets")
     @Transactional
-    public ResponseEntity<String> cadastrarPet(@PathVariable String idOuNome, @RequestBody @Valid Pet pet) {
+    public ResponseEntity<String> registerPet(
+            @PathVariable String idOrName,
+            @RequestBody @Valid RegisterPetDto registerPetDto) {
         try {
-            Long id = Long.parseLong(idOuNome);
-            Shelter shelter = repository.getReferenceById(id);
-            pet.setAbrigo(shelter);
-            pet.setPetIsAdopted(false);
-            shelter.getPets().add(pet);
-            repository.save(shelter);
+            Shelter shelter = shelterService.loadShelter(idOrName);
+            petService.registerPet(shelter, registerPetDto);
             return ResponseEntity.ok().build();
-        } catch (EntityNotFoundException enfe) {
+        } catch (ValidationException exception) {
             return ResponseEntity.notFound().build();
-        } catch (NumberFormatException nfe) {
-            try {
-                Shelter shelter = repository.findByName(idOuNome);
-                pet.setAbrigo(shelter);
-                pet.setPetIsAdopted(false);
-                shelter.getPets().add(pet);
-                repository.save(shelter);
-                return ResponseEntity.ok().build();
-            } catch (EntityNotFoundException enfe) {
-                return ResponseEntity.notFound().build();
-            }
         }
     }
 

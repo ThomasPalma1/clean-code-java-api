@@ -3,12 +3,15 @@ package br.com.alura.adopet.api.repository;
 import br.com.alura.adopet.api.model.Shelter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface ShelterRepository extends JpaRepository<Shelter, Long> {
-    boolean existsByName(String name);
 
-    boolean existsByTelephone(String telephone);
+    Optional<Shelter> findByName(String nome);
 
-    boolean existsByEmail(String email);
+    boolean existsByNameOrPhoneOrEmail(
+            String shelterName,
+            String shelterPhoneNumber,
+            String shelterEmail);
 
-    Shelter findByName(String name);
 }
