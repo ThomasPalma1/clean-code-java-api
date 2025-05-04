@@ -5,15 +5,22 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
-import java.util.Objects;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Setter
+@Getter
 @Entity
-@Table(name = "tutores")
+@Table(name = "pet_owners")
 public class PetOwner {
 
+
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -36,56 +43,5 @@ public class PetOwner {
     @JsonManagedReference("tutor_adocoes")
     private List<Adoption> adocoes;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PetOwner petOwner = (PetOwner) o;
-        return Objects.equals(id, petOwner.id);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Adoption> getAdocoes() {
-        return adocoes;
-    }
-
-    public void setAdocoes(List<Adoption> adocoes) {
-        this.adocoes = adocoes;
-    }
 }
