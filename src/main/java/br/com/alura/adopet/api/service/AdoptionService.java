@@ -39,12 +39,12 @@ public class AdoptionService {
     private List<AdoptionRequestValidation> validations;
 
 
-    public void request(AdoptionRequestDto dto) {
+    public void request(AdoptionRequestDto adoptionRequestDto) {
 
-        Pet pet = petRepository.getReferenceById(dto.idPet());
-        PetOwner petOwner = petOwnerRepository.getReferenceById(dto.idPetOwner());
+        Pet pet = petRepository.getReferenceById(adoptionRequestDto.idPet());
+        PetOwner petOwner = petOwnerRepository.getReferenceById(adoptionRequestDto.idPetOwner());
 
-        validations.forEach(v -> v.validate(dto));
+        validations.forEach(v -> v.validate(adoptionRequestDto));
 
         Adoption adoption = new Adoption();
 

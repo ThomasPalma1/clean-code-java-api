@@ -3,12 +3,14 @@ package br.com.alura.adopet.api.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,6 +19,7 @@ import java.util.Objects;
 public class Adoption {
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -34,19 +37,6 @@ public class Adoption {
     private AdoptionStatus status = AdoptionStatus.PENDING_REVIEW;
 
     private String justificationStatus;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Adoption adoption = (Adoption) o;
-        return Objects.equals(id, adoption.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 
     public void MarkAsApproved() {
         this.status = AdoptionStatus.APPROVED;
