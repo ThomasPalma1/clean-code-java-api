@@ -1,7 +1,6 @@
-create table tutores(
-    id bigint not null auto_increment,
-    nome varchar(100) not null,
-    telefone varchar(14) not null unique,
-    email varchar(100) not null unique,
-    primary key(id)
+CREATE TABLE pet_owners (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telephone VARCHAR(14) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE
 );
