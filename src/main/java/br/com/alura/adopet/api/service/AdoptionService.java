@@ -65,9 +65,9 @@ public class AdoptionService {
         adoption.MarkAsApproved();
 
         emailService.sendEmail(
-                adoption.getPetOwner().getEmail(),
+                adoption.getPetOwner().getPetOwnerEmail(),
                 "Adoption approved",
-                "Congratulations " + adoption.getPetOwner().getNome() + "!\n\n" +
+                "Congratulations " + adoption.getPetOwner().getPetOwnerName() + "!\n\n" +
                         "Your adoption of the pet " + adoption.getPet().getPetName() + ", requested on " +
                         adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", has been approved.\n" +
@@ -82,9 +82,9 @@ public class AdoptionService {
         adoption.MarkAsDisapproved(dto.reason());
 
         emailService.sendEmail(
-                adoption.getPetOwner().getEmail(),
+                adoption.getPetOwner().getPetOwnerEmail(),
                 "Adoption rejected",
-                "Hello " + adoption.getPetOwner().getNome() + "!\n\n" +
+                "Hello " + adoption.getPetOwner().getPetOwnerName() + "!\n\n" +
                         "Unfortunately, your adoption request for the pet " + adoption.getPet().getPetName() +
                         ", submitted on " + adoption.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
                         ", was rejected by the shelter " + adoption.getPet().getShelter().getShelterName() +

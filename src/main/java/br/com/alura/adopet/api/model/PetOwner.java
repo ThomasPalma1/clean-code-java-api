@@ -1,47 +1,47 @@
 package br.com.alura.adopet.api.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import br.com.alura.adopet.api.dto.PetOwnerUpdateDto;
+import br.com.alura.adopet.api.dto.RegisterOwnerDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "pet_owners")
 public class PetOwner {
 
-
     @Id
-    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    @Column(name = "nome")
-    private String nome;
+    private String petOwnerName;
 
-    @NotBlank
-    @Pattern(regexp = "\\(?\\d{2}\\)?\\d?\\d{4}-?\\d{4}")
-    @Column(name = "telephone")
-    private String telefone;
+    private String petOwnerPhoneNumber;
 
-    @NotBlank
-    @Email
-    @Column(name = "email")
-    private String email;
+    private String petOwnerEmail;
 
-    @OneToMany(mappedBy = "tutor")
-    @JsonManagedReference("tutor_adocoes")
-    private List<Adoption> adocoes;
+    @OneToMany(mappedBy = "petOwner")
+    private List<Adoption> adoptions = new ArrayList<>();
+
+
+    public PetOwner(RegisterOwnerDto registerOwnerDto) {
+        this.petOwnerName = registerOwnerDto.petOwnerName();
+        this.petOwnerPhoneNumber = registerOwnerDto.petOwnerPhoneNumber();
+        this.petOwnerEmail = registerOwnerDto.petOwnerEmail();
+    }
+
+    public void updateData(PetOwnerUpdateDto petOwnerUpdateDto) {
+        this.petOwnerName = petOwnerUpdateDto.petOwnerName();
+        this.petOwnerPhoneNumber = petOwnerUpdateDto.petOwnerPhoneNumber();
+        this.petOwnerEmail = petOwnerUpdateDto.petOwnerEmail();
+    }
 
 
 }
