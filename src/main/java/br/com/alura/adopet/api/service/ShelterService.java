@@ -31,7 +31,7 @@ public class ShelterService {
     }
 
     public void register(RegisterShelterDto registerShelterDto) {
-        boolean alreadyRegistered = shelterRepository.existsByNameOrPhoneOrEmail(
+        boolean alreadyRegistered = shelterRepository.existsByShelterNameOrShelterPhoneNumberOrShelterEmail(
                 registerShelterDto.shelterName(),
                 registerShelterDto.shelterPhoneNumber(),
                 registerShelterDto.shelterEmail()
@@ -61,7 +61,7 @@ public class ShelterService {
             Long id = Long.parseLong(idOuNome);
             optional = shelterRepository.findById(id);
         } catch (NumberFormatException exception) {
-            optional = shelterRepository.findByName(idOuNome);
+            optional = shelterRepository.findByShelterName(idOuNome);
         }
 
         return optional.orElseThrow(() -> new ValidationException("Shelter not found."));

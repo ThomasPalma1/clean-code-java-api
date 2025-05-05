@@ -17,7 +17,7 @@ public class PetOwnerService {
 
     public void register(RegisterOwnerDto registerOwnerDto) {
         boolean alreadyRegistered = petOwnerRepository
-                .existsByPhoneOrEmail(
+                .existsByPetOwnerPhoneNumberOrPetOwnerEmail(
                         registerOwnerDto.petOwnerPhoneNumber(),
                         registerOwnerDto.petOwnerEmail());
 

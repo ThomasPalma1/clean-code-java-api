@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PetOwnerRepository extends JpaRepository<PetOwner, Long> {
 
-    boolean existsByPhoneOrEmail(String petOwnerPhoneNumber, String petOwnerEmail);
+    boolean existsByPetOwnerPhoneNumberOrPetOwnerEmail(String petOwnerPhoneNumber, String petOwnerEmail);
 
 }

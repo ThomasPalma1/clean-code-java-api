@@ -19,7 +19,7 @@ public class PetService {
 
     public List<PetDto> searchAvailablePet() {
         return repository
-                .findAllByAdoptedFalse()
+                .findAllByPetIsAdoptedFalse()
                 .stream()
                 .map(PetDto::new)
                 .toList();

@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface ShelterRepository extends JpaRepository<Shelter, Long> {
 
-    Optional<Shelter> findByName(String nome);
+    Optional<Shelter> findByShelterName(String nome);
 
-    boolean existsByNameOrPhoneOrEmail(
+    boolean existsByShelterNameOrShelterPhoneNumberOrShelterEmail(
             String shelterName,
             String shelterPhoneNumber,
             String shelterEmail);
